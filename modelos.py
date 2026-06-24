@@ -2,6 +2,9 @@ from conexao import conectar
 
 class Aluno:
     def __init__(self, nome_aluno, media_aluno, id_aluno=None):                 
+        self.id_aluno = id_aluno
+        self.nome_aluno = nome_aluno
+        self.media_aluno = media_aluno
         self.id = id_aluno
         self.nome = nome_aluno
         self.media = media_aluno
@@ -19,23 +22,25 @@ class Aluno:
         conexao = conectar()
         cursor = conexao.cursor()
 
-        sql = "INSERT INTO aluno(id, nome, media)VALUES(%s, %s, %s)"
-        cursor.execute(sql, (self.id, self.nome, self.media))
+        sql = "INSERT INTO aluno(nome_aluno, media_aluno) VALUES(%s, %s)"
+        cursor.execute(sql, (self.nome_aluno, self.media_aluno))
 
         conexao.commit()
+        cursor.close()
         conexao.close()
 
 def listar_alunos():
-    conexao= conectar()
+    conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = "SELECT * FROM aluno" 
+    sql = "SELECT * FROM aluno"
     cursor.execute(sql)
 
     alunos = []
-    for id, nome, media in cursor.fetchall():
-        aluno = Aluno(id, nome, media)
+    for id_aluno, nome_aluno, media_aluno in cursor.fetchall():
+        aluno = Aluno(nome_aluno, media_aluno, id_aluno)
         alunos.append(aluno)
 
+    cursor.close()
     conexao.close()
     return alunos

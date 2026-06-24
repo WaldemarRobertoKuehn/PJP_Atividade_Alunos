@@ -14,6 +14,7 @@ def cadastrar():
 
     aluno = Aluno(nome_aluno, media_aluno)
     aluno.salvar()
+    print("Aluno cadastrado com sucesso!")
 
 def mostrar():
     for aluno in listar_alunos():
